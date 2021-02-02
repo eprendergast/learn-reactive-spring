@@ -2,7 +2,6 @@ package com.learnreactivespring.controller;
 
 import java.time.Duration;
 
-import org.springframework.data.mongodb.core.aggregation.ArrayOperators;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;

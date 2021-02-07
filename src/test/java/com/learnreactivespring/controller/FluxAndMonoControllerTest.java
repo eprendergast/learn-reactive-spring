@@ -17,7 +17,6 @@ import reactor.test.StepVerifier;
 @WebFluxTest // will only scan packages which have @Controller, @RestController, etc. Doesn't scan @Component, @Repository etc
 class FluxAndMonoControllerTest {
 
-
     @Autowired
     WebTestClient webTestClient; // @WebFLuxTest annotation creates the instance here
 
@@ -28,7 +27,8 @@ class FluxAndMonoControllerTest {
                                                  .accept(MediaType.APPLICATION_JSON)
                                                  .exchange() // this is where the call is actually made
                                                  .expectStatus().isOk()
-                                                 .returnResult(Integer.class).getResponseBody();
+                                                 .returnResult(Integer.class)
+                                                 .getResponseBody();
 
         StepVerifier.create(integerFlux)
                     .expectSubscription()

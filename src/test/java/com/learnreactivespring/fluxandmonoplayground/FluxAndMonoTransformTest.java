@@ -106,10 +106,10 @@ public class FluxAndMonoTransformTest {
 
         Flux<String> stringFlux = Flux.fromIterable(Arrays.asList("A", "B", "C", "D", "E", "F")) // Flux<String>
                                       .window(2) // Flux<Flux<String>> -> (A,B), (C,D), (E,F)
-//                                      .concatMap((s) ->
-//                                                       s.map(this::convertToList).subscribeOn(parallel()) // Flux<List<String>>
+                                      //                                      .concatMap((s) ->
+                                      //                                                       s.map(this::convertToList).subscribeOn(parallel()) // Flux<List<String>>
                                       .flatMapSequential((s) -> s.map(this::convertToList).subscribeOn(parallel())
-                                                        .flatMap(s2 -> Flux.fromIterable(s2))
+                                                                 .flatMap(s2 -> Flux.fromIterable(s2))
                                       ).log(); // DB or external service call that returns a flux -> s -> Flux<String>
 
         StepVerifier.create(stringFlux)

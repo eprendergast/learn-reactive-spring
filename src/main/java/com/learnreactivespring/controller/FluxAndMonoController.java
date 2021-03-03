@@ -15,7 +15,6 @@ public class FluxAndMonoController {
     @GetMapping("/flux") // Browser is the subscriber
     public Flux<Integer> returnFlux() {
         return Flux.just(1, 2, 3, 4)
-                   .delayElements(Duration.ofSeconds(1)) // browser will take 4 seconds to return the full results because browsers are blocking clients by default
                    .log();
     }
 

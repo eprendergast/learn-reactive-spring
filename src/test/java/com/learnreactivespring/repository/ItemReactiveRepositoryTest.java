@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import com.learnreactivespring.document.Item;
@@ -18,6 +19,7 @@ import reactor.test.StepVerifier;
 
 @DataMongoTest // will load all the necessary classes that are required for Mongo test case
 @ExtendWith(SpringExtension.class)
+@DirtiesContext // Need to add in all scenarios where you are changing the application context (i.e updating DB)
 class ItemReactiveRepositoryTest {
 
     @Autowired

@@ -1,4 +1,4 @@
-package com.learnreactivespring.controller.v1;
+package com.learnreactivespring.handler;
 
 import java.util.Arrays;
 import java.util.List;
@@ -19,6 +19,7 @@ import com.learnreactivespring.document.Item;
 import com.learnreactivespring.repository.ItemReactiveRepository;
 
 import static com.learnreactivespring.constants.ItemConstants.ITEM_ENDPOINT_V1;
+import static com.learnreactivespring.constants.ItemConstants.ITEM_FUNCTIONAL_ENDPOINT_V1;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -29,7 +30,7 @@ import reactor.test.StepVerifier;
 @DirtiesContext
 @ExtendWith(SpringExtension.class)
 @AutoConfigureWebTestClient // this autoconfigures the WebTestClient
-class ItemControllerTest {
+class ItemHandlerTest {
 
     @Autowired
     private WebTestClient webTestClient;
@@ -57,7 +58,7 @@ class ItemControllerTest {
 
     @Test
     void getAllItems() {
-        webTestClient.get().uri(ITEM_ENDPOINT_V1)
+        webTestClient.get().uri(ITEM_FUNCTIONAL_ENDPOINT_V1)
                      .exchange()
                      .expectStatus().isOk()
                      .expectHeader().contentType(MediaType.APPLICATION_JSON)
@@ -66,7 +67,7 @@ class ItemControllerTest {
 
     @Test
     void getAllItems_approach2() {
-        webTestClient.get().uri(ITEM_ENDPOINT_V1)
+        webTestClient.get().uri(ITEM_FUNCTIONAL_ENDPOINT_V1)
                      .exchange()
                      .expectStatus().isOk()
                      .expectHeader().contentType(MediaType.APPLICATION_JSON)
@@ -81,7 +82,7 @@ class ItemControllerTest {
 
     @Test
     void getAllItems_approach3() {
-        Flux<Item> itemFlux = webTestClient.get().uri(ITEM_ENDPOINT_V1)
+        Flux<Item> itemFlux = webTestClient.get().uri(ITEM_FUNCTIONAL_ENDPOINT_V1)
                                            .exchange()
                                            .expectStatus().isOk()
                                            .expectHeader().contentType(MediaType.APPLICATION_JSON)
@@ -95,7 +96,7 @@ class ItemControllerTest {
 
     @Test
     void getOneItem() {
-        webTestClient.get().uri(ITEM_ENDPOINT_V1.concat("/{id}"), "ABC")
+        webTestClient.get().uri(ITEM_FUNCTIONAL_ENDPOINT_V1.concat("/{id}"), "ABC")
                      .exchange()
                      .expectStatus().isOk()
                      .expectBody() // gives access to the body
@@ -104,7 +105,7 @@ class ItemControllerTest {
 
     @Test
     void getOneItem_notFound() {
-        webTestClient.get().uri(ITEM_ENDPOINT_V1.concat("/{id}"), "DEF")
+        webTestClient.get().uri(ITEM_FUNCTIONAL_ENDPOINT_V1.concat("/{id}"), "DEF")
                      .exchange()
                      .expectStatus().isNotFound();
     }
@@ -114,7 +115,7 @@ class ItemControllerTest {
 
         Item item = new Item(null, "iPhone X", 999.99);
 
-        webTestClient.post().uri(ITEM_ENDPOINT_V1)
+        webTestClient.post().uri(ITEM_FUNCTIONAL_ENDPOINT_V1)
                      .contentType(MediaType.APPLICATION_JSON)
                      .body(Mono.just(item), Item.class)
                      .exchange()
@@ -127,7 +128,7 @@ class ItemControllerTest {
 
     @Test
     void deleteItem() {
-        webTestClient.delete().uri(ITEM_ENDPOINT_V1.concat("/{id}"), "ABC")
+        webTestClient.delete().uri(ITEM_FUNCTIONAL_ENDPOINT_V1.concat("/{id}"), "ABC")
                      .exchange()
                      .expectStatus().isOk()
                      .expectBody(Void.class);
@@ -138,7 +139,7 @@ class ItemControllerTest {
         Double newPrice = 129.99;
         Item item = new Item(null, "Beats Headphones", newPrice);
 
-        webTestClient.put().uri(ITEM_ENDPOINT_V1.concat("/{id}"), "ABC")
+        webTestClient.put().uri(ITEM_FUNCTIONAL_ENDPOINT_V1.concat("/{id}"), "ABC")
                      .contentType(MediaType.APPLICATION_JSON)
                      .accept(MediaType.APPLICATION_JSON)
                      .body(Mono.just(item), Item.class)
@@ -153,7 +154,7 @@ class ItemControllerTest {
         Double newPrice = 129.99;
         Item item = new Item(null, "Beats Headphones", newPrice);
 
-        webTestClient.put().uri(ITEM_ENDPOINT_V1.concat("/{id}"), "DEF")
+        webTestClient.put().uri(ITEM_FUNCTIONAL_ENDPOINT_V1.concat("/{id}"), "DEF")
                      .contentType(MediaType.APPLICATION_JSON)
                      .accept(MediaType.APPLICATION_JSON)
                      .body(Mono.just(item), Item.class)

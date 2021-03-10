@@ -39,7 +39,6 @@ public class ItemDataInitializer implements CommandLineRunner {
     private void createCappedCollection() {
         mongoOperations.dropCollection(ItemCapped.class)
                        .then(mongoOperations.createCollection(ItemCapped.class, CollectionOptions.empty().maxDocuments(20).size(50000).capped())).subscribe();
-        // maxDocuments(20) means that we will only ever be able to retrieve a maximum of 20 documents at once
     }
 
     public List<Item> data() {
